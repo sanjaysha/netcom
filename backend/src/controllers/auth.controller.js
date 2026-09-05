@@ -1,6 +1,7 @@
 import User from "../models/Users.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../lib/utils.js";
+import { sendEmail } from "../utils/welcomeEmail.js";
+import { generateToken } from "../utils/generateJWT.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -46,6 +47,27 @@ export const signup = async (req, res) => {
       });
 
       //   todo: send a welcome email to user
+      const message =
+        "We're excited to have you join Netcom platform! Netcom connects you with friends, family, and colleagues in real-time, no matter where they are.";
+      try {
+        // Send Email
+        await sendEmail({
+          name: newUser.fullName,
+          email: newUser.email,
+          subject: "Welcome to Netcom!",
+          message,
+          clientUrl: process.env.FRONTEND_URL,
+        });
+        res.status(200).json({
+          success: true,
+          message: "Welcome email send to " + newUser.email + " successfully.",
+        });
+      } catch (error) {
+        console.log("Error in Welcome Email:", error);
+        res
+          .status(500)
+          .json({ message: "Internal server error: Welcome Email" });
+      }
     } else {
       return res.status(400).json({ message: "Invalid User Data" });
     }
