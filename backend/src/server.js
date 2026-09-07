@@ -1,13 +1,13 @@
+import "dotenv/config";
+// import dotenv from "dotenv/config";
+// dotenv.config();
 import express from "express";
-import dotenv from "dotenv";
 import path from "path";
 
 import authRoutes from "./routes/route.auth.js";
 import messageRoutes from "./routes/route.messages.js";
 import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
-
-dotenv.config();
 
 const app = express();
 const __dirname = path.resolve();
