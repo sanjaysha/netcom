@@ -3,7 +3,7 @@ import "dotenv/config";
 // dotenv.config();
 import express from "express";
 import path from "path";
-
+import cors from "cors";
 import authRoutes from "./routes/route.auth.js";
 import messageRoutes from "./routes/route.messages.js";
 import { connectDB } from "./lib/db.js";
@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json()); //If the incoming request contains JSON, parse it and make the resulting JavaScript object available through req.body.
 app.use(cookieParser());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
