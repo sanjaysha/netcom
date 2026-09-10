@@ -18,7 +18,7 @@ function App() {
   console.log({ authUser });
   if (isCheckingAuth) return <PageLoader />;
   return (
-    <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center  overflow-hidden">
       <Background />
       <div className="relative z-10 w-full">
         <div>

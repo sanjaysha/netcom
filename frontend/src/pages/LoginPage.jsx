@@ -21,8 +21,8 @@ function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-[720px]">
-        <AnimatedGradientBorder className="w-full overflow-hidden rounded-2xl">
+      <div className="w-full max-w-[720px] h-[720px]">
+        <AnimatedGradientBorder className="w-full h-full overflow-hidden rounded-2xl">
           <div className="w-full flex flex-col md:flex-row">
             {/* form column left side */}
             <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-slate-600/30">
