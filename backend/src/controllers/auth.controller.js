@@ -47,7 +47,7 @@ export const signup = async (req, res) => {
         profilePic: newUser.profilePic,
       });
 
-      //   todo: send a welcome email to user
+      //  send a welcome email to user
       const message =
         "We're excited to have you join Netcom platform! Netcom connects you with friends, family, and colleagues in real-time, no matter where they are.";
       try {
@@ -92,6 +92,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
 
     generateToken(user._id, res);
+
     res.status(200).json({
       _id: user._id,
       fullName: user.fullName,
