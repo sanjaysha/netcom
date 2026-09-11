@@ -8,7 +8,6 @@ export const getAllContacts = async (req, res) => {
     const filteredUsers = await User.find({
       _id: { $ne: loggedInUserId },
     }).select("-password");
-    console.log(filteredUsers);
     res.status(200).json({
       filteredUsers,
     });
@@ -102,7 +101,6 @@ export const getChatPartners = async (req, res) => {
     const chatPartners = await User.find({
       _id: { $in: chatPartnersIds },
     }).select("-password");
-    console.log("chatPartners:", chatPartners);
     res.status(200).json(chatPartners);
   } catch (error) {
     console.log("Error in getChatPartners controller", error);

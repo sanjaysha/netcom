@@ -10,7 +10,7 @@ export const useChatStore = create((set, get) => ({
   messages: [],
   isUserLoading: false,
   isMessagesLoading: false,
-  isSoundEnabled: localStorage.getItem("isSoundEnabled") === true,
+  isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === true,
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
@@ -18,6 +18,7 @@ export const useChatStore = create((set, get) => ({
   },
 
   setActiveTab: (tab) => {
+    console.log("ACTIVE TAB", tab);
     set({ activeTab: tab });
   },
 
@@ -29,7 +30,7 @@ export const useChatStore = create((set, get) => ({
     set({ isUserLoading: true });
     try {
       const res = await axiosInstance.get("/messages/contacts");
-      set({ allConstacts: res.data });
+      set({ allContacts: res.data?.filteredUsers });
     } catch (error) {
       toast.error("Error getting All Contacts");
       console.log("Error in Getting all contacts", error);
@@ -37,9 +38,9 @@ export const useChatStore = create((set, get) => ({
       set({ isUserLoading: false });
     }
   },
+
   getChatPartners: async () => {
     set({ isUserLoading: true });
-
     try {
       const res = await axiosInstance.get("/messages/chats");
       set({ chats: res.data });
