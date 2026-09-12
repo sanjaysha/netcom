@@ -51,4 +51,31 @@ export const useChatStore = create((set, get) => ({
       set({ isUserLoading: false });
     }
   },
+
+  getMessagesByUserId: async (userId) => {
+    set({ isMessagesLoading: true });
+    try {
+      const res = await axiosInstance.get(`/messages/${userId}`);
+      set({ messages: res.data });
+    } catch (error) {
+      toast.error("Error loading messages");
+      console.log("Error loading messages:", error.response.data.message);
+    } finally {
+      set({ isMessagesLoading: false });
+    }
+  },
+
+  // isMessageSending: false,
+  // sendMessage: async (receiverId) => {
+  //   await axiosInstance.post(`/messages/send/${receiverId}`)
+  //   set({ isMessageSending: true });
+  //   try {
+
+  //   } catch (error) {
+  //     toast.error("Error sending message. Try Again.");
+  //     console.log("Error sending message:", error.response.data.message);
+  //   } finally {
+  //     set({ isMessageSending: false });
+  //   }
+  // },
 }));
