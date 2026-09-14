@@ -23,7 +23,6 @@ function ChatHeader() {
             <img
               src={selectedUser.profilePic || "/avatar.png"}
               alt={selectedUser.fullName}
-              srcset=""
             />
           </div>
         </div>
