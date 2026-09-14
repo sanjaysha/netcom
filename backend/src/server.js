@@ -14,7 +14,7 @@ const __dirname = path.resolve();
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json()); //If the incoming request contains JSON, parse it and make the resulting JavaScript object available through req.body.
+app.use(express.json({ limit: "5mb" })); //If the incoming request contains JSON, parse it and make the resulting JavaScript object available through req.body.
 app.use(cookieParser());
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
