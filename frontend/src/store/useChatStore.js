@@ -66,7 +66,6 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  isMessageSending: false,
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     const { authUser } = useAuthUser.getState();
@@ -85,7 +84,6 @@ export const useChatStore = create((set, get) => ({
     //immdiatly update the UI by adding message
     set({ messages: [...messages, optimisticMessage] });
     try {
-      set({ isMessageSending: true });
       const res = await axiosInstance.post(
         `/messages/send/${selectedUser._id}`,
         messageData,
@@ -96,8 +94,33 @@ export const useChatStore = create((set, get) => ({
       toast.error(
         error.response?.data?.message || "Error sending message. Try Again.",
       );
-    } finally {
-      set({ isMessageSending: false });
     }
+  },
+
+  subscribeToMessages: () => {
+    const { selectedUser, isSoundEnabled } = get();
+    if (!selectedUser) return;
+    const socket = useAuthUser.getState().socket;
+
+    socket.on("newMessage", (newMessage) => {
+      const isMessageSentFromSelectedUser =
+        newMessage.senderId === selectedUser._id;
+      if (!isMessageSentFromSelectedUser) return;
+
+      const currentMessages = get().messages;
+      set({ messages: [...currentMessages, newMessage] });
+    });
+
+    if (isSoundEnabled) {
+      const notificationSound = new Audio("/sounds/notification.mp3");
+      notificationSound.currentTime = 0;
+      notificationSound.play().catch((e) => {
+        console.log("Audio Play Failed", e);
+      });
+    }
+  },
+  unsubscribeFromMessages: () => {
+    const socket = useAuthUser.getState().socket;
+    socket.off("newMessage");
   },
 }));
