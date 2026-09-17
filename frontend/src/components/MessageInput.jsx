@@ -26,7 +26,6 @@ function MessageInput() {
       text: text.trim(),
       image: imagePreview,
     });
-    console.log("image Preview:", imagePreview);
 
     setText("");
     setImagePreview(null);

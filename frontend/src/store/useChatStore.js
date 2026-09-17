@@ -19,7 +19,6 @@ export const useChatStore = create((set, get) => ({
   },
 
   setActiveTab: (tab) => {
-    console.log("ACTIVE TAB", tab);
     set({ activeTab: tab });
   },
 

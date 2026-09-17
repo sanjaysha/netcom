@@ -15,7 +15,6 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  console.log({ authUser });
   if (isCheckingAuth) return <PageLoader />;
   return (
     <div className="relative min-h-screen flex items-center justify-center  overflow-hidden">
