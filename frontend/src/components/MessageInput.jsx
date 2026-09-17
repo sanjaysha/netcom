@@ -5,7 +5,7 @@ import { ImageIcon, SendIcon, XIcon } from "lucide-react";
 
 function MessageInput() {
   const { playRandomKeyStrokeSound } = useKeyboardSound();
-  const { sendMessage, isMessageSending, isSoundEnabled } = useChatStore();
+  const { sendMessage, isSoundEnabled } = useChatStore();
 
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
@@ -14,8 +14,14 @@ function MessageInput() {
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
-    if (isSoundEnabled) playRandomKeyStrokeSound();
 
+    if (isSoundEnabled) {
+      const sendSound = new Audio("/sounds/sendKeystroke.mp3");
+      sendSound.currentTime = 0;
+      sendSound.play().catch((e) => {
+        console.log("Audio Play Failed", e);
+      });
+    }
     sendMessage({
       text: text.trim(),
       image: imagePreview,
