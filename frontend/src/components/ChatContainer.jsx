@@ -60,7 +60,8 @@ function ChatContainer() {
                 </div>
               </div>
             ))}
-            <div ref={messageEndRef} /> //Scroll target on new message
+            {/* //Scroll target on new message */}
+            <div ref={messageEndRef} />
           </>
         ) : isMessagesLoading ? (
           <MessagesLoadingSkeleton />
