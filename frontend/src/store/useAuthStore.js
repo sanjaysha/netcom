@@ -3,9 +3,8 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = (import.meta.env.MODE = "development"
-  ? "http://localhost:3000"
-  : "/");
+const BASE_URL =
+  import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
 
 export const useAuthUser = create((set, get) => ({
   authUser: null,
@@ -97,15 +96,25 @@ export const useAuthUser = create((set, get) => ({
       { withCredentials: true }, //This ensures cookies are sent with the connection
     );
 
-    socket.connect();
     set({ socket: socket });
 
     //Listen for online user events
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
     });
+
+    socket.on("connect_error", (error) => {
+      console.error("Socket connection failed:", error.message);
+    });
+
+    socket.connect();
   },
   disconnectSocket: () => {
-    if (get().socket?.connected) get().socket.disconnect();
+    const socket = get().socket;
+    if (socket) {
+      socket.removeAllListeners();
+      socket.disconnect();
+    }
+    set({ socket: null, onlineUsers: [] });
   },
 }));

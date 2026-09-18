@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import { useAuthUser } from "../store/useAuthStore";
@@ -7,6 +7,7 @@ import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 import MessageInput from "./MessageInput";
 
 function ChatContainer() {
+  const [messageText, setMessageText] = useState("");
   const {
     getMessagesByUserId,
     isMessagesLoading,
@@ -81,10 +82,13 @@ function ChatContainer() {
         ) : isMessagesLoading ? (
           <MessagesLoadingSkeleton />
         ) : (
-          <NoChatHistoryPlaceholder name={selectedUser.fullName} />
+          <NoChatHistoryPlaceholder
+            name={selectedUser.fullName}
+            onSuggestionSelect={setMessageText}
+          />
         )}
       </div>
-      <MessageInput />
+      <MessageInput text={messageText} setText={setMessageText} />
     </>
   );
 }

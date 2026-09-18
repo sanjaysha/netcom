@@ -34,7 +34,7 @@ export const socketAuthMiddleware = async (socket, next) => {
     console.log(`Socket Authenticated for user: ${user.fullName}(${user._id})`);
     next();
   } catch (error) {
-    console.log("Error in socket authentication: error.message");
+    console.log("Error in socket authentication:", error.message);
     return next(new Error("Unauthorized - Authentication Failed"));
   }
 };
