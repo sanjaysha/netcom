@@ -3,11 +3,10 @@ import { useChatStore } from "../store/useChatStore";
 import useKeyboardSound from "../hooks/useKeyboardSound";
 import { ImageIcon, SendIcon, XIcon } from "lucide-react";
 
-function MessageInput() {
+function MessageInput({ text, setText }) {
   const { playRandomKeyStrokeSound } = useKeyboardSound();
   const { sendMessage, isSoundEnabled } = useChatStore();
 
-  const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
